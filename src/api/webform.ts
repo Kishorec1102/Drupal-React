@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { API_BASE_URL } from '@/api/config'
 
+export const CXO_SUPPORT_WEBFORM_ID = 'let_s_disscuss_how_cxo_can_suppo'
+
 const webformApi = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -10,6 +12,7 @@ const webformApi = axios.create({
 })
 
 export type WebformSubmissionPayload = {
+  webform_id?: string
   first_name: string
   last_name: string
   business_email: string
@@ -21,8 +24,8 @@ export type WebformSubmissionPayload = {
 export type WebformElementsResponse = Record<string, unknown>
 
 const getAuthHeader = () => {
-  const user = import.meta.env.VITE_DRUPAL_WEBFORM_USER
-  const password = import.meta.env.VITE_DRUPAL_WEBFORM_PASSWORD
+  const user = import.meta.env.VITE_DRUPAL_WEBFORM_USER ?? 'CXOAdmin'
+  const password = import.meta.env.VITE_DRUPAL_WEBFORM_PASSWORD ?? 'CXO@123'
 
   if (!user || !password) {
     return {}
@@ -35,7 +38,7 @@ const getAuthHeader = () => {
 
 export async function getWebformElements(): Promise<WebformElementsResponse> {
   const response = await webformApi.get<WebformElementsResponse>(
-    '/webform_rest/let_s_disscuss_how_cxo_can_suppo/elements',
+    `/webform_rest/${CXO_SUPPORT_WEBFORM_ID}/elements`,
     { headers: getAuthHeader() },
   )
 
@@ -46,8 +49,11 @@ export async function submitWebform(
   payload: WebformSubmissionPayload,
 ): Promise<unknown> {
   const response = await webformApi.post(
-    '/webform_rest/let_s_disscuss_how_cxo_can_suppo/submit?_format=json',
-    payload,
+    `/webform_rest/${CXO_SUPPORT_WEBFORM_ID}/submit?_format=json`,
+    {
+      ...payload,
+      webform_id: CXO_SUPPORT_WEBFORM_ID,
+    },
     {
       headers: getAuthHeader(),
     },

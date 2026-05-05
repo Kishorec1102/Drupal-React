@@ -1,9 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { Logo } from '@/components/icons'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import { submitWebform } from '@/api/webform'
+import { getWebformElements, submitWebform } from '@/api/webform'
+
+type WebformElementDefinition = {
+  '#title'?: string
+  '#required'?: boolean
+}
+
+type WebformElementMap = Record<string, WebformElementDefinition>
+
+const defaultLabels: Record<string, string> = {
+  first_name: 'First Name',
+  last_name: 'Last Name',
+  business_email: 'Business Email',
+  company_name: 'Company Name',
+  job_title: 'Job Title',
+  your_message: 'Your Message',
+}
 
 export function ContactSection() {
   const [firstName, setFirstName] = useState('')
@@ -12,8 +28,29 @@ export function ContactSection() {
   const [companyName, setCompanyName] = useState('')
   const [jobTitle, setJobTitle] = useState('')
   const [message, setMessage] = useState('')
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [elements, setElements] = useState<WebformElementMap>({})
+  const [status, setStatus] = useState<
+    'idle' | 'submitting' | 'success' | 'error'
+  >('idle')
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
+
+  useEffect(() => {
+    let active = true
+
+    getWebformElements()
+      .then((response) => {
+        if (active) {
+          setElements(response as WebformElementMap)
+        }
+      })
+      .catch((error) => {
+        console.error('Unable to load Drupal webform elements', error)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   const canSubmit =
     firstName.trim() &&
@@ -23,7 +60,7 @@ export function ContactSection() {
     jobTitle.trim() &&
     message.trim()
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     if (!canSubmit) {
@@ -62,6 +99,13 @@ export function ContactSection() {
     }
   }
 
+  const getPlaceholder = (key: keyof typeof defaultLabels) => {
+    const title = elements[key]?.['#title'] ?? defaultLabels[key]
+    const required = elements[key]?.['#required'] ?? true
+
+    return `${title}${required ? '*' : ''}`
+  }
+
   return (
     <section className="contact-section">
       <div className="contact-copy">
@@ -77,38 +121,38 @@ export function ContactSection() {
 
       <form className="contact-form" onSubmit={handleSubmit}>
         <Input
-          placeholder="First Name*"
+          placeholder={getPlaceholder('first_name')}
           aria-label="First name"
           value={firstName}
           onChange={(event) => setFirstName(event.target.value)}
         />
         <Input
-          placeholder="Last Name*"
+          placeholder={getPlaceholder('last_name')}
           aria-label="Last name"
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
         />
         <Input
-          placeholder="Business Email*"
+          placeholder={getPlaceholder('business_email')}
           aria-label="Business email"
           type="email"
           value={businessEmail}
           onChange={(event) => setBusinessEmail(event.target.value)}
         />
         <Input
-          placeholder="Company Name*"
+          placeholder={getPlaceholder('company_name')}
           aria-label="Company name"
           value={companyName}
           onChange={(event) => setCompanyName(event.target.value)}
         />
         <Input
-          placeholder="Job Title*"
+          placeholder={getPlaceholder('job_title')}
           aria-label="Job title"
           value={jobTitle}
           onChange={(event) => setJobTitle(event.target.value)}
         />
         <Textarea
-          placeholder="Your Message*"
+          placeholder={getPlaceholder('your_message')}
           aria-label="Your message"
           value={message}
           onChange={(event) => setMessage(event.target.value)}
@@ -131,7 +175,7 @@ export function ContactSection() {
           className="submit-button"
           disabled={!canSubmit || status === 'submitting'}
         >
-          {status === 'submitting' ? 'Sending…' : 'Submit'}
+          {status === 'submitting' ? 'Sending...' : 'Submit'}
         </Button>
       </form>
     </section>

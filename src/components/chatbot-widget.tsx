@@ -2,22 +2,32 @@ import { useMemo, useState, type FormEvent } from 'react'
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/icons'
 
-const initialMessages = [
-  {
-    id: 'intro',
-    role: 'assistant',
-    text: 'CXO Copilot can help interpret this report, summarize priorities, and draft stakeholder-ready next steps.',
-  },
-]
-
 type ChatMessage = {
   id: string
   role: 'assistant' | 'user'
   text: string
 }
 
+const initialMessages = [
+  {
+    id: 'explain',
+    role: 'assistant',
+    text: 'I can explain findings, summarize risks, and turn this report into next steps.',
+  },
+  {
+    id: 'hello',
+    role: 'user',
+    text: 'hi',
+  },
+  {
+    id: 'intro',
+    role: 'assistant',
+    text: 'CXO Copilot can help interpret this report, summarize priorities, and draft stakeholder-ready next steps.',
+  },
+] satisfies ChatMessage[]
+
 export function ChatbotWidget() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
   const [draft, setDraft] = useState('')
   const [isSending, setIsSending] = useState(false)
@@ -70,9 +80,14 @@ export function ChatbotWidget() {
       {open ? (
         <div className="chatbot-panel" role="dialog" aria-label="CXO Copilot chat">
           <div className="chatbot-header">
-            <div>
-              <p className="chatbot-title">CXO Copilot</p>
-              <p className="chatbot-subtitle">Digital Agent</p>
+            <div className="chatbot-heading">
+              <span className="chatbot-brand-icon" aria-hidden="true">
+                <Icon name="bot" />
+              </span>
+              <div>
+                <p className="chatbot-title">CXO Copilot</p>
+                <p className="chatbot-subtitle">Digital Agent</p>
+              </div>
             </div>
             <button
               type="button"
@@ -80,7 +95,7 @@ export function ChatbotWidget() {
               aria-label="Close chat"
               onClick={() => setOpen(false)}
             >
-              ×
+              x
             </button>
           </div>
 
