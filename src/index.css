@@ -907,11 +907,29 @@ main {
   line-height: 1.45;
 }
 
-.detail-row a {
+.detail-row p > span {
+  display: inline;
+}
+
+.detail-row-expanded {
+  align-items: start;
+  min-height: 176px;
+}
+
+.detail-more-button {
   display: inline-block;
   margin-left: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: #16784b;
+  cursor: pointer;
+  font: inherit;
   font-weight: 900;
+}
+
+.detail-more-button:hover {
+  text-decoration: underline;
 }
 
 .detail-head {
@@ -1019,6 +1037,10 @@ main {
   z-index: 1200;
   display: grid;
   place-items: end;
+}
+
+.chatbot-widget:not(.chatbot-widget-open) {
+  bottom: 124px;
 }
 
 .chatbot-panel {
@@ -1332,9 +1354,80 @@ main {
   position: fixed;
   right: 34px;
   bottom: 36px;
-  z-index: 20;
+  z-index: 1300;
   display: grid;
   gap: 22px;
+  justify-items: end;
+}
+
+.floating-share-menu {
+  width: min(336px, calc(100vw - 48px));
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid rgba(125, 143, 214, 0.38);
+  border-radius: 28px;
+  background: #202842;
+  box-shadow: 0 22px 60px rgba(2, 15, 43, 0.42);
+}
+
+.floating-share-menu button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+}
+
+.floating-share-menu button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.floating-share-icon {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: #6757f6;
+}
+
+.floating-share-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.floating-share-menu strong,
+.floating-share-menu small {
+  display: block;
+}
+
+.floating-share-menu strong {
+  margin-bottom: 4px;
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.floating-share-menu small {
+  color: #c7d0e8;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.floating-actions > .btn-floating {
+  width: 72px;
+  height: 72px;
+  min-height: 72px;
+  border: 2px solid #dbe584;
+  border-radius: 24px;
 }
 
 @media (max-width: 1280px) {

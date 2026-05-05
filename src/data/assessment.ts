@@ -18,6 +18,7 @@ export type AssessmentRow = {
   consideration: string
   performance: 'High' | 'Medium' | 'Low' | 'Undiscovered'
   notes: string
+  fullNotes?: string
   linkLabel?: string
 }
 
@@ -52,26 +53,26 @@ export const categories: AssessmentCategory[] = [
         performance: 'Medium',
         notes:
           'Score is 63. Time to load is 3.5 seconds across Safari, Chrome and 4.5 in Opera. 8 common issues & 13 code-specific issues.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'Core Web Vitals - Mobile',
         performance: 'Low',
         notes:
           'Score is 32. Time to load is 5.5 seconds across Safari, Chrome and 2.5 in Opera. 19 common issues & 20 code-specific issues.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'Coding Best Practices',
         performance: 'Undiscovered',
         notes: 'Extensions, plugins, code vulnerabilities assessment pending.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'Security - Web',
         performance: 'High',
         notes: '3 recommendations identified, no critical issues.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
     ],
   },
@@ -92,27 +93,27 @@ export const categories: AssessmentCategory[] = [
         performance: 'Low',
         notes:
           'Many user friction points with seamless transaction opportunities, no cross/up-sell, page load times high, minimal FAQ/User Review buildout.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'Conversion Experience & Maturity',
         performance: 'Medium',
         notes:
           'Competitors allow pay overtime feature for large purchases, only allow Visa & MasterCard, no AMEX, Apple Pay, Google Pay, etc.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'Digital Engagement Feature Maturity',
         performance: 'Medium',
         notes:
           'Minimal visible use of personalization, no tracking, no authenticated user features, wish list, etc.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'Authenticated User Experience',
         performance: 'Medium',
         notes: 'Organization currently requires a manual onboarding feature.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
     ],
   },
@@ -133,26 +134,26 @@ export const categories: AssessmentCategory[] = [
         performance: 'Undiscovered',
         notes:
           'Use of AI within common business processes associated with digital, MarTech & Digital GTM functions.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'ContentOps Maturity',
         performance: 'Undiscovered',
         notes:
           'Channel content management, use of SEO/GEO best practices within content deployment, aggressiveness of content calendar, campaign plans & analytics.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'SDLC Process Oversight',
         performance: 'Undiscovered',
         notes: 'Software development lifecycle process assessment pending.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'Authenticated User Behavior / Account Functionality',
         performance: 'Undiscovered',
         notes: 'Internal process efficiency for user management assessment pending.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
     ],
   },
@@ -173,27 +174,27 @@ export const categories: AssessmentCategory[] = [
         performance: 'Undiscovered',
         notes:
           'Assessment of AI integration in customer-facing touchpoints and personalization engines.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'Marketing Automation & AI',
         performance: 'Undiscovered',
         notes:
           'Evaluation of AI usage in marketing workflows, campaign optimization, and predictive analytics.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'Operational AI & Process Automation',
         performance: 'Undiscovered',
         notes:
           'Assessment of AI/ML usage in internal operations, inventory management, and business intelligence.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
       {
         consideration: 'Authenticated User Behavior / Account Functionality',
         performance: 'Undiscovered',
         notes: 'Internal process efficiency for user management assessment pending.',
-        linkLabel: 'Learn more',
+        linkLabel: 'Show more',
       },
     ],
   },

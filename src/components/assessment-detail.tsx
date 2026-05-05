@@ -22,6 +22,7 @@ const badgeTone: Record<
 export function AssessmentDetails({ categories }: AssessmentDetailProps) {
   const [activeCategoryId, setActiveCategoryId] = useState(categories[0]?.id)
   const [isNavCollapsed, setIsNavCollapsed] = useState(false)
+  const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({})
   const activeCategory =
     categories.find((category) => category.id === activeCategoryId) ??
     categories[0]
@@ -103,22 +104,49 @@ export function AssessmentDetails({ categories }: AssessmentDetailProps) {
               <span role="columnheader">Performance</span>
               <span role="columnheader">Notes</span>
             </div>
-            {activeCategory.rows.map((row) => (
-              <div className="detail-row" role="row" key={row.consideration}>
-                <strong role="cell">{row.consideration}</strong>
-                <span role="cell">
-                  <Badge tone={badgeTone[row.performance]}>
-                    {row.performance}
-                  </Badge>
-                </span>
-                <p role="cell">
-                  {row.notes}
-                  {row.linkLabel ? (
-                    <a href={`#${activeCategory.id}`}>{row.linkLabel} -&gt;</a>
-                  ) : null}
-                </p>
-              </div>
-            ))}
+            {activeCategory.rows.map((row) => {
+              const rowId = `${activeCategory.id}-${row.consideration}`
+              const isExpanded = expandedRows[rowId] ?? false
+              const expandedText = row.fullNotes || row.notes
+              const hasMore = expandedText !== row.notes || row.linkLabel
+
+              return (
+                <div
+                  className={
+                    isExpanded ? 'detail-row detail-row-expanded' : 'detail-row'
+                  }
+                  role="row"
+                  key={row.consideration}
+                >
+                  <strong role="cell">{row.consideration}</strong>
+                  <span role="cell">
+                    <Badge tone={badgeTone[row.performance]}>
+                      {row.performance}
+                    </Badge>
+                  </span>
+                  <p role="cell">
+                    <span>{isExpanded ? expandedText : row.notes}</span>
+                    {hasMore ? (
+                      <button
+                        className="detail-more-button"
+                        type="button"
+                        aria-expanded={isExpanded}
+                        onClick={() =>
+                          setExpandedRows((current) => ({
+                            ...current,
+                            [rowId]: !isExpanded,
+                          }))
+                        }
+                      >
+                        {isExpanded
+                          ? 'Show less'
+                          : (row.linkLabel ?? 'Show more')}
+                      </button>
+                    ) : null}
+                  </p>
+                </div>
+              )
+            })}
             {activeCategory.rows.length === 0 ? (
               <div className="detail-row detail-empty" role="row">
                 <strong role="cell">No assessment items published yet.</strong>

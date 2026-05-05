@@ -1,7 +1,14 @@
 import type { IconName } from '@/data/assessment'
 
 type IconProps = {
-  name: IconName | 'sparkle' | 'arrow' | 'linkedin' | 'settings'
+  name:
+    | IconName
+    | 'sparkle'
+    | 'arrow'
+    | 'linkedin'
+    | 'settings'
+    | 'copy'
+    | 'mail'
   className?: string
 }
 
@@ -77,6 +84,20 @@ export function Icon({ name, className }: IconProps) {
         <svg {...common}>
           <path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z" />
           <path d="M12 2v3M12 19v3M4.9 4.9 7 7M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1" />
+        </svg>
+      )
+    case 'copy':
+      return (
+        <svg {...common}>
+          <rect x="9" y="9" width="11" height="11" rx="2" />
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+        </svg>
+      )
+    case 'mail':
+      return (
+        <svg {...common}>
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3 7 9 6 9-6" />
         </svg>
       )
   }

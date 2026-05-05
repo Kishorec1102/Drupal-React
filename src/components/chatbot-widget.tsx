@@ -27,7 +27,7 @@ const initialMessages = [
 ] satisfies ChatMessage[]
 
 export function ChatbotWidget() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
   const [draft, setDraft] = useState('')
   const [isSending, setIsSending] = useState(false)

@@ -23,6 +23,11 @@ export type AssessmentAttributes = {
 
 export type AssessmentItemAttributes = {
   title: string
+  body?: {
+    value?: string | null
+    processed?: string | null
+    summary?: string | null
+  } | null
   field_performance?: string | null
   field_performance_ref?: string | null
   field_summary?: string | null

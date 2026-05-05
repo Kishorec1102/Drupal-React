@@ -58,7 +58,13 @@ export function mapRowsByCategory(items: AssessmentItemResource[]) {
             item.attributes.field_text ?? item.attributes.field_summary,
             'Assessment pending.',
           ),
-          linkLabel: 'Learn more',
+          fullNotes: cleanText(
+            item.attributes.body?.processed ??
+              item.attributes.body?.value ??
+              item.attributes.field_text ??
+              item.attributes.field_summary,
+          ),
+          linkLabel: 'Show more',
         },
       ]
     })
