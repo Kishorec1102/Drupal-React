@@ -1430,6 +1430,398 @@ main {
   border-radius: 24px;
 }
 
+.topbar {
+  height: 91px;
+  padding: 0 max(72px, calc((100vw - 1625px) / 2));
+  background: linear-gradient(100deg, #181818 0%, #181818 52%, #2d275e 100%);
+}
+
+.topbar .brand {
+  padding: 0;
+  background: transparent;
+}
+
+.topbar .brand-text {
+  font-size: 42px;
+}
+
+.topbar .brand-mark {
+  grid-template-columns: repeat(5, 9px);
+  gap: 5px;
+}
+
+.topbar .dot {
+  width: 8px;
+  height: 8px;
+}
+
+.hero-section {
+  min-height: 802px;
+  background:
+    radial-gradient(circle at 0% 25%, rgba(209, 246, 242, 0.86), transparent 31%),
+    radial-gradient(circle at 84% 15%, rgba(238, 230, 255, 0.95), transparent 34%),
+    linear-gradient(180deg, #fff 0%, #eef5fc 100%);
+}
+
+.hero-content {
+  width: min(1490px, calc(100% - 220px));
+  padding: 130px 0 36px;
+}
+
+.meta-pills {
+  gap: 76px;
+  margin-bottom: 56px;
+}
+
+.meta-pills span {
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #36577d;
+  font-size: 17px;
+}
+
+.meta-pills svg {
+  color: #22254f;
+}
+
+.hero-content h1 {
+  max-width: 990px;
+  margin-bottom: 32px;
+  color: #17233a;
+  font-size: clamp(68px, 5.15vw, 82px);
+  line-height: 1.34;
+}
+
+.hero-content h1 span {
+  color: #5665f5;
+}
+
+.hero-content > p {
+  max-width: 930px;
+  margin-bottom: 0;
+  color: #3c5c84;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.score-summary {
+  align-items: end;
+  gap: 118px;
+}
+
+.overall-score {
+  width: 292px;
+  min-height: 268px;
+  margin-top: 4px;
+  padding: 42px 44px;
+  border: 0;
+  border-left: 0;
+  border-radius: 28px 28px 0 0;
+  background: #1d3457;
+  color: #fff;
+}
+
+.overall-score strong {
+  color: #fff;
+  font-size: 44px;
+}
+
+.overall-score span {
+  color: #fff;
+  font-size: 26px;
+}
+
+.overall-score small {
+  color: #fff;
+  font-size: 17px;
+}
+
+.ring-row {
+  align-items: end;
+  gap: 86px;
+}
+
+.score-ring {
+  width: 146px;
+  height: 146px;
+}
+
+.score-ring-inner {
+  width: 110px;
+  height: 110px;
+  background: #fff;
+}
+
+.score-ring-label {
+  font-size: 19px;
+}
+
+.category-grid {
+  width: min(1490px, calc(100% - 220px));
+  gap: 24px;
+  padding: 56px 0;
+}
+
+.category-card {
+  min-height: 280px;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 22px 60px rgba(18, 34, 62, 0.1);
+}
+
+.category-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+}
+
+.category-card h2 {
+  font-size: 19px;
+}
+
+.category-card p {
+  min-height: 68px;
+  font-size: 18px;
+}
+
+.assessment-details {
+  width: min(1720px, calc(100% - 160px));
+  grid-template-columns: 126px 1fr;
+  gap: 48px;
+  padding: 0 0 88px;
+}
+
+.assessment-details.nav-collapsed {
+  grid-template-columns: 126px 1fr;
+  gap: 48px;
+}
+
+.side-nav {
+  top: 24px;
+  min-height: 322px;
+  padding: 30px 16px;
+  border-radius: 36px 36px 0 0;
+  background: #19335a;
+}
+
+.collapse-button {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 28px;
+  border-radius: 18px;
+  font-size: 30px;
+  color: #fff;
+  background: #334d78;
+}
+
+.side-nav-item,
+.nav-collapsed .side-nav-item {
+  min-height: 104px;
+  justify-content: center;
+  gap: 0;
+  padding: 10px;
+  border-radius: 24px;
+}
+
+.side-nav-label,
+.nav-collapsed .side-nav-label {
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.detail-panel {
+  height: auto;
+  min-height: 0;
+  border: 1px solid #c6d5ee;
+  border-radius: 22px 22px 0 0;
+}
+
+.detail-panel-header {
+  min-height: 132px;
+  padding: 40px 40px 32px;
+}
+
+.detail-panel-header h2 {
+  font-size: 23px;
+}
+
+.detail-panel-header h2 span {
+  display: none;
+}
+
+.detail-panel-header p {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.detail-table {
+  overflow: visible;
+}
+
+.detail-row {
+  grid-template-columns: minmax(280px, 0.9fr) 190px minmax(520px, 1.8fr);
+  min-height: 78px;
+  padding: 20px 40px;
+}
+
+.detail-row > strong,
+.detail-row p {
+  font-size: 14px;
+}
+
+.detail-head {
+  min-height: 66px;
+  font-size: 14px;
+}
+
+.detail-row-expanded {
+  min-height: 98px;
+  background: #f6f8fc;
+}
+
+.badge {
+  min-width: 104px;
+  padding: 8px 18px;
+  font-size: 14px;
+}
+
+.contact-section {
+  grid-template-columns: minmax(520px, 0.9fr) minmax(640px, 1fr);
+  gap: 96px;
+  padding: 110px max(148px, calc((100vw - 1340px) / 2)) 96px;
+  background: #191919;
+}
+
+.contact-copy h2 {
+  max-width: 620px;
+  margin: 0 0 42px;
+  font-size: 36px;
+  line-height: 1.45;
+}
+
+.contact-copy p {
+  max-width: 650px;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.contact-form {
+  align-self: center;
+  gap: 24px 28px;
+  padding-top: 0;
+}
+
+.contact-form .input {
+  height: 52px;
+}
+
+.contact-form .textarea {
+  min-height: 156px;
+}
+
+.privacy-note {
+  margin: -6px 0 8px;
+  font-size: 14px;
+}
+
+.privacy-note span {
+  width: 16px;
+  height: 16px;
+  font-size: 11px;
+}
+
+.submit-button {
+  width: min(372px, 100%);
+}
+
+.next-steps {
+  padding: 76px 0 190px;
+}
+
+.next-steps.section {
+  width: min(1380px, calc(100% - 220px));
+}
+
+.next-steps h2 {
+  margin-bottom: 28px;
+  font-size: 42px;
+}
+
+.next-steps > p {
+  max-width: 1200px;
+  font-size: 21px;
+}
+
+.access-table {
+  margin-top: 44px;
+  border-radius: 34px 34px 0 0;
+}
+
+.access-head > * {
+  min-height: 70px;
+  font-size: 21px;
+}
+
+.access-row > * {
+  min-height: 114px;
+  padding: 28px;
+}
+
+.access-row strong {
+  font-size: 22px;
+}
+
+.access-row p {
+  font-size: 20px;
+}
+
+.site-footer {
+  padding: 0 max(110px, calc((100vw - 1550px) / 2)) 36px;
+  background: #061d3b;
+}
+
+.newsletter {
+  top: -74px;
+  min-height: 238px;
+  padding: 52px 76px;
+  border-radius: 12px;
+  background: #164ba6;
+}
+
+.newsletter h2 {
+  font-size: 34px;
+}
+
+.newsletter p {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.newsletter-form .input,
+.newsletter-form .btn {
+  min-height: 58px;
+  height: 58px;
+}
+
+.footer-main {
+  margin-top: 0;
+}
+
+.footer-brand .brand-text {
+  font-size: 42px;
+}
+
+.footer-main h3,
+.footer-main nav a,
+.legal {
+  font-size: 18px;
+}
+
 @media (max-width: 1280px) {
   .section,
   .hero-content {

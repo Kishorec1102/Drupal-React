@@ -1,5 +1,4 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { Logo } from '@/components/icons'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
@@ -109,7 +108,6 @@ export function ContactSection() {
   return (
     <section className="contact-section">
       <div className="contact-copy">
-        <Logo inverse />
         <h2>Let's Discuss How CXO Can Support Your Digital Goals</h2>
         <p>
           CXO is a team that understands your world - technically, functionally

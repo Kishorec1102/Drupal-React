@@ -122,7 +122,7 @@ export function ChatbotWidget() {
           aria-label="Open CXO Copilot"
           onClick={() => setOpen(true)}
         >
-          <Icon name="bot" />
+          <Icon name="sparkle" />
         </Button>
       )}
     </div>

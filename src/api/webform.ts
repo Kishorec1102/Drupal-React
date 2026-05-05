@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { API_BASE_URL } from '@/api/config'
 
-export const CXO_SUPPORT_WEBFORM_ID = 'lets_disscuss_how_cxo_can_suppo'
+export const CXO_SUPPORT_WEBFORM_ID = 'let_s_disscuss_how_cxo_can_suppo'
 
 const webformApi = axios.create({
   baseURL: API_BASE_URL,
