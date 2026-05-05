@@ -45,8 +45,8 @@ export function SiteFooter() {
       </div>
 
       <div className="legal">
-        <span>© Copyright 2025-26 cxontology Private Limited. All rights reserved.</span>
-        <span>Privacy Policy • Terms & Conditions</span>
+        <span>? Copyright 2025-26 cxontology Private Limited. All rights reserved.</span>
+        <span>Privacy Policy ? Terms & Conditions</span>
       </div>
     </footer>
   )

@@ -1590,9 +1590,10 @@ main {
 
 .assessment-details {
   width: min(1720px, calc(100% - 160px));
-  grid-template-columns: 126px 1fr;
+  grid-template-columns: 438px minmax(0, 1fr);
   gap: 48px;
   padding: 0 0 88px;
+  align-items: start;
 }
 
 .assessment-details.nav-collapsed {
@@ -1602,41 +1603,63 @@ main {
 
 .side-nav {
   top: 24px;
-  min-height: 322px;
-  padding: 30px 16px;
+  height: 705px;
+  min-height: 0;
+  padding: 36px 30px;
   border-radius: 36px 36px 0 0;
   background: #19335a;
+}
+
+.nav-collapsed .side-nav {
+  padding: 30px 16px;
 }
 
 .collapse-button {
   width: 58px;
   height: 58px;
-  margin: 0 auto 28px;
+  margin: 0 0 36px auto;
   border-radius: 18px;
   font-size: 30px;
   color: #fff;
   background: #334d78;
 }
 
-.side-nav-item,
+.side-nav-item {
+  min-height: 114px;
+  gap: 26px;
+  margin-bottom: 18px;
+  padding: 26px 30px;
+  border-radius: 24px;
+  font-size: 21px;
+}
+
 .nav-collapsed .side-nav-item {
   min-height: 104px;
   justify-content: center;
   gap: 0;
   padding: 10px;
-  border-radius: 24px;
 }
 
-.side-nav-label,
+.side-nav-label {
+  width: auto;
+  opacity: 1;
+  overflow: visible;
+  white-space: normal;
+}
+
 .nav-collapsed .side-nav-label {
   width: 0;
   opacity: 0;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .detail-panel {
-  height: auto;
+  height: 646px;
   min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border: 1px solid #c6d5ee;
   border-radius: 22px 22px 0 0;
 }
@@ -1660,7 +1683,9 @@ main {
 }
 
 .detail-table {
-  overflow: visible;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-gutter: stable;
 }
 
 .detail-row {
@@ -1675,13 +1700,23 @@ main {
 }
 
 .detail-head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
   min-height: 66px;
   font-size: 14px;
 }
 
 .detail-row-expanded {
-  min-height: 98px;
+  min-height: 78px;
   background: #f6f8fc;
+}
+
+.detail-row-expanded p > span {
+  display: block;
+  max-height: 92px;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
 .badge {
@@ -1781,16 +1816,21 @@ main {
 }
 
 .site-footer {
-  padding: 0 max(110px, calc((100vw - 1550px) / 2)) 36px;
+  padding: 0 0 36px;
   background: #061d3b;
 }
 
 .newsletter {
   top: -74px;
+  width: min(1490px, calc(100% - 408px));
+  margin-right: auto;
+  margin-left: auto;
   min-height: 238px;
   padding: 52px 76px;
   border-radius: 12px;
   background: #164ba6;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 56px;
 }
 
 .newsletter h2 {
@@ -1809,7 +1849,10 @@ main {
 }
 
 .footer-main {
-  margin-top: 0;
+  width: min(1550px, calc(100% - 344px));
+  margin: -8px auto 0;
+  grid-template-columns: 1.25fr repeat(3, 1fr);
+  gap: 76px;
 }
 
 .footer-brand .brand-text {
@@ -1820,6 +1863,15 @@ main {
 .footer-main nav a,
 .legal {
   font-size: 18px;
+}
+
+.footer-main nav a {
+  margin-bottom: 24px;
+}
+
+.legal {
+  width: min(1550px, calc(100% - 344px));
+  margin: 58px auto 0;
 }
 
 @media (max-width: 1280px) {
