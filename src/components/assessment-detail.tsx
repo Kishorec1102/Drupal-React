@@ -20,7 +20,9 @@ const badgeTone: Record<
 }
 
 export function AssessmentDetails({ categories }: AssessmentDetailProps) {
-  const [activeCategoryId, setActiveCategoryId] = useState(categories[0]?.id)
+  const [activeCategoryId, setActiveCategoryId] = useState(
+    getInitialCategoryId(categories),
+  )
   const [isNavCollapsed, setIsNavCollapsed] = useState(false)
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({})
   const activeCategory =
@@ -68,6 +70,7 @@ export function AssessmentDetails({ categories }: AssessmentDetailProps) {
             key={category.id}
             onClick={() => setActiveCategoryId(category.id)}
             type="button"
+            aria-current={category.id === activeCategory.id ? 'true' : undefined}
           >
             <span className="side-nav-icon">
               <Icon name={category.icon} />
@@ -111,39 +114,40 @@ export function AssessmentDetails({ categories }: AssessmentDetailProps) {
               const hasMore = expandedText !== row.notes || row.linkLabel
 
               return (
-                <div
-                  className={
-                    isExpanded ? 'detail-row detail-row-expanded' : 'detail-row'
-                  }
-                  role="row"
-                  key={row.consideration}
-                >
-                  <strong role="cell">{row.consideration}</strong>
-                  <span role="cell">
-                    <Badge tone={badgeTone[row.performance]}>
-                      {row.performance}
-                    </Badge>
-                  </span>
-                  <p role="cell">
-                    <span>{isExpanded ? expandedText : row.notes}</span>
-                    {hasMore ? (
-                      <button
-                        className="detail-more-button"
-                        type="button"
-                        aria-expanded={isExpanded}
-                        onClick={() =>
-                          setExpandedRows((current) => ({
-                            ...current,
-                            [rowId]: !isExpanded,
-                          }))
-                        }
-                      >
-                        {isExpanded
-                          ? 'Show less'
-                          : (row.linkLabel ?? 'Show more')}
-                      </button>
-                    ) : null}
-                  </p>
+                <div className="detail-row-group" key={row.consideration}>
+                  <div className="detail-row" role="row">
+                    <strong role="cell">{row.consideration}</strong>
+                    <span role="cell">
+                      <Badge tone={badgeTone[row.performance]}>
+                        {row.performance}
+                      </Badge>
+                    </span>
+                    <p role="cell">
+                      <span>{row.notes}</span>
+                      {hasMore ? (
+                        <button
+                          className="detail-more-button"
+                          type="button"
+                          aria-expanded={isExpanded}
+                          onClick={() =>
+                            setExpandedRows((current) => ({
+                              ...current,
+                              [rowId]: !isExpanded,
+                            }))
+                          }
+                        >
+                          {isExpanded
+                            ? 'Show less'
+                            : (row.linkLabel ?? 'Show more')}
+                        </button>
+                      ) : null}
+                    </p>
+                  </div>
+                  {isExpanded ? (
+                    <div className="detail-analysis" role="row">
+                      <p role="cell">{expandedText}</p>
+                    </div>
+                  ) : null}
                 </div>
               )
             })}
@@ -161,5 +165,12 @@ export function AssessmentDetails({ categories }: AssessmentDetailProps) {
         </Card>
       </div>
     </section>
+  )
+}
+
+function getInitialCategoryId(categories: AssessmentCategory[]) {
+  return (
+    categories.find((category) => category.rows.length > 0)?.id ??
+    categories[0]?.id
   )
 }

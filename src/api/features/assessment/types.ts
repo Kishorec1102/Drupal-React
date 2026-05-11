@@ -14,6 +14,31 @@ export type AssessmentReport = {
   categories: AssessmentCategory[]
 }
 
+export type HeroBannerResponseItem = {
+  title: string
+  field_assessment_description: string | null
+  field_assessment_title: string | null
+  field_client_name: string | null
+  field_hero_description: string | null
+  field_overall_max_score: string | number | null
+  field_overall_score: string | number | null
+}
+
+export type GridResponseItem = {
+  assessment_title: string
+  assessment_description: string | null
+  assessment_min_score: string | number | null
+  assessment_max_score: string | number | null
+}
+
+export type AssessmentPillarResponseItem = {
+  assessment_title: string
+  Assessment_consideration: string | null
+  Asessment_depth_analysis: string | null
+  Assessment_notes: string | null
+  Assessment_Performance: string | null
+}
+
 export type AssessmentAttributes = {
   title: string
   field_client_name: string | null

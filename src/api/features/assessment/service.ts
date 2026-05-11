@@ -1,43 +1,46 @@
-import { getJson } from '@/api/client'
-import type { DrupalResource, JsonApiCollection } from '@/api/jsonapi'
+import { getRestJson } from '@/api/client'
 import {
-  mapCategories,
-  mapReportMeta,
-  mapRowsByCategory,
+  mapGridCategories,
+  mapHeroBannerMeta,
+  mapPillarRowsByTitle,
 } from '@/api/features/assessment/mapper'
 import type {
-  AssessmentAttributes,
-  AssessmentItemAttributes,
-  AssessmentItemRelationships,
-  AssessmentRelationships,
+  AssessmentPillarResponseItem,
   AssessmentReport,
-  CategoryAttributes,
+  GridResponseItem,
+  HeroBannerResponseItem,
 } from '@/api/features/assessment/types'
 
 const assessmentEndpoints = {
-  assessments: '/jsonapi/node/assessment',
-  assessmentItems: '/jsonapi/node/assessment_item',
-  categories: '/jsonapi/node/category',
+  heroBanner: '/api/hero-banner',
+  grid: '/api/grid',
+  assessmentPillar: '/api/assessment_pillar?_format=json',
 }
 
 export async function getAssessmentReport(): Promise<AssessmentReport> {
-  const [assessmentResponse, categoryResponse, assessmentItemsResponse] =
-    await Promise.all([
-      getJson<JsonApiCollection<
-        DrupalResource<AssessmentAttributes, AssessmentRelationships>
-      >>(assessmentEndpoints.assessments),
-      getJson<JsonApiCollection<DrupalResource<CategoryAttributes>>>(
-        assessmentEndpoints.categories,
-      ),
-      getJson<JsonApiCollection<
-        DrupalResource<AssessmentItemAttributes, AssessmentItemRelationships>
-      >>(assessmentEndpoints.assessmentItems),
-    ])
+  const [heroBannerResponse, gridResponse] = await Promise.all([
+    getRestJson<HeroBannerResponseItem[]>(assessmentEndpoints.heroBanner),
+    getRestJson<GridResponseItem[]>(assessmentEndpoints.grid),
+  ])
 
-  const rowsByCategory = mapRowsByCategory(assessmentItemsResponse.data)
+  const assessmentPillarResponse = await getAssessmentPillarItems()
+
+  const rowsByCategoryTitle = mapPillarRowsByTitle(assessmentPillarResponse)
 
   return {
-    reportMeta: mapReportMeta(assessmentResponse.data),
-    categories: mapCategories(categoryResponse.data, rowsByCategory),
+    reportMeta: mapHeroBannerMeta(heroBannerResponse),
+    categories: mapGridCategories(gridResponse, rowsByCategoryTitle),
+  }
+}
+
+async function getAssessmentPillarItems() {
+  try {
+    return await getRestJson<AssessmentPillarResponseItem[]>(
+      assessmentEndpoints.assessmentPillar,
+    )
+  } catch (error) {
+    console.error('Unable to load assessment pillar items', error)
+
+    return []
   }
 }

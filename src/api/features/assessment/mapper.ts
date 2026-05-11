@@ -6,8 +6,11 @@ import type {
   AssessmentAttributes,
   AssessmentItemAttributes,
   AssessmentItemRelationships,
+  AssessmentPillarResponseItem,
   AssessmentRelationships,
   CategoryAttributes,
+  GridResponseItem,
+  HeroBannerResponseItem,
   ReportMeta,
 } from '@/api/features/assessment/types'
 
@@ -38,6 +41,26 @@ export function mapReportMeta(assessments: AssessmentResource[]): ReportMeta {
     ),
     overallScore: overview?.attributes.field_overall_score[0] ?? 0,
     overallMaxScore: 100,
+  }
+}
+
+export function mapHeroBannerMeta(
+  banners: HeroBannerResponseItem[],
+): ReportMeta {
+  const banner = banners[0]
+
+  return {
+    assessment: cleanText(
+      banner?.field_assessment_title,
+      'Digital Assessment',
+    ),
+    client: cleanText(banner?.field_client_name, 'Client'),
+    summary: cleanText(
+      banner?.field_hero_description,
+      'CXO executes comprehensive digital health & growth assessments across multiple aspects of your organization.',
+    ),
+    overallScore: toNumber(banner?.field_overall_score, 0),
+    overallMaxScore: toNumber(banner?.field_overall_max_score, 100),
   }
 }
 
@@ -119,6 +142,83 @@ export function mapCategories(
     })
 }
 
+export function mapPillarRowsByTitle(items: AssessmentPillarResponseItem[]) {
+  return items.reduce<Record<string, AssessmentRow[]>>((rows, item) => {
+    const title = cleanText(item.assessment_title, 'Assessment category')
+    const titleKey = getTitleKey(title)
+
+    rows[titleKey] = [
+      ...(rows[titleKey] ?? []),
+      {
+        consideration: cleanText(
+          item.Assessment_consideration,
+          'Assessment item',
+        ),
+        performance: mapPerformance(item.Assessment_Performance),
+        notes: cleanText(item.Assessment_notes, 'Assessment pending.'),
+        fullNotes: cleanText(
+          item.Asessment_depth_analysis ?? item.Assessment_notes,
+          'Additional analysis pending.',
+        ),
+        linkLabel: 'Learn more',
+      },
+    ]
+
+    return rows
+  }, {})
+}
+
+export function mapGridCategories(
+  gridItems: GridResponseItem[],
+  rowsByCategoryTitle: Record<string, AssessmentRow[]>,
+): AssessmentCategory[] {
+  return gridItems
+    .map((item, index): AssessmentCategory => {
+      const title = cleanText(item.assessment_title, 'Assessment category')
+      const style = getStyleForTitle(title, index)
+
+      return {
+        id: slugify(title),
+        title,
+        shortTitle: mapShortTitle(title),
+        description: cleanText(item.assessment_description),
+        score: toNumber(item.assessment_min_score, 0),
+        maxScore: toNumber(item.assessment_max_score, 25),
+        color: style.color,
+        darkColor: style.darkColor,
+        tint: style.tint,
+        icon: style.icon,
+        rows:
+          rowsByCategoryTitle[title] ??
+          rowsByCategoryTitle[getTitleKey(title)] ??
+          rowsByCategoryTitle[toLegacyTitle(title)] ??
+          rowsByCategoryTitle[getTitleKey(toLegacyTitle(title))] ??
+          [],
+      }
+    })
+    .sort((current, next) => {
+      return (
+        getTitleDisplayOrder(current.title) - getTitleDisplayOrder(next.title)
+      )
+    })
+}
+
+function toLegacyTitle(title: string) {
+  return title.replace(
+    'Digital GTM Efficiency',
+    'Digital Go-To-Market Efficiency',
+  )
+}
+
+function getTitleKey(title: string) {
+  return cleanText(title)
+    .toLowerCase()
+    .replace(/go-to-market/g, 'gtm')
+    .replace(/\band\b/g, '&')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+}
+
 function getDisplayOrder(categories: CategoryResource[], categoryId: string) {
   return (
     categories.find((category) => category.id === categoryId)?.attributes
@@ -129,8 +229,38 @@ function getDisplayOrder(categories: CategoryResource[], categoryId: string) {
 function mapShortTitle(title: string) {
   return title
     .replace('Marketing, Conversions & Growth', 'Marketing & Growth')
+    .replace('Digital GTM Efficiency', 'Digital GTM')
     .replace('Digital Go-To-Market Efficiency', 'Digital GTM')
     .replace('Tech & Platform Performance', 'Tech & Platform')
+}
+
+export function mapCategoryTitlesById(categories: CategoryResource[]) {
+  return categories.reduce<Record<string, string>>((titles, category) => {
+    titles[category.id] = cleanText(
+      category.attributes.title,
+      'Assessment category',
+    )
+
+    return titles
+  }, {})
+}
+
+export function mapRowsByCategoryTitle(
+  rowsByCategory: Record<string, AssessmentRow[]>,
+  categoryTitlesById: Record<string, string>,
+) {
+  return Object.entries(rowsByCategory).reduce<Record<string, AssessmentRow[]>>(
+    (rows, [categoryId, categoryRows]) => {
+      const title = categoryTitlesById[categoryId]
+
+      if (title) {
+        rows[title] = categoryRows
+      }
+
+      return rows
+    },
+    {},
+  )
 }
 
 function mapPerformance(
@@ -146,4 +276,62 @@ function mapPerformance(
     default:
       return 'Undiscovered'
   }
+}
+
+function toNumber(value: string | number | null | undefined, fallback: number) {
+  const numberValue = Number(value)
+
+  return Number.isFinite(numberValue) ? numberValue : fallback
+}
+
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
+function getStyleForTitle(title: string, index: number) {
+  const normalizedTitle = title.toLowerCase()
+
+  if (normalizedTitle.includes('tech')) {
+    return categoryStyles[0]
+  }
+
+  if (normalizedTitle.includes('marketing')) {
+    return categoryStyles[1]
+  }
+
+  if (normalizedTitle.includes('gtm')) {
+    return categoryStyles[2]
+  }
+
+  if (normalizedTitle.includes('automation')) {
+    return categoryStyles[3]
+  }
+
+  return categoryStyles[index % categoryStyles.length]
+}
+
+function getTitleDisplayOrder(title: string) {
+  const normalizedTitle = title.toLowerCase()
+
+  if (normalizedTitle.includes('tech')) {
+    return 0
+  }
+
+  if (normalizedTitle.includes('marketing')) {
+    return 1
+  }
+
+  if (normalizedTitle.includes('gtm')) {
+    return 2
+  }
+
+  if (normalizedTitle.includes('automation')) {
+    return 3
+  }
+
+  return 99
 }

@@ -8,6 +8,13 @@ export const drupalApi = axios.create({
   },
 })
 
+export const drupalRestApi = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    Accept: 'application/json',
+  },
+})
+
 export async function getJson<T>(path: string): Promise<T> {
   try {
     const response = await drupalApi.get<T>(path)
@@ -17,6 +24,25 @@ export async function getJson<T>(path: string): Promise<T> {
     if (error instanceof AxiosError) {
       throw new Error(
         `Drupal API request failed: ${error.response?.status ?? error.message}`,
+        { cause: error },
+      )
+    }
+
+    throw error
+  }
+}
+
+export async function getRestJson<T>(path: string): Promise<T> {
+  try {
+    const response = await drupalRestApi.get<T>(path)
+
+    return response.data
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(
+        `Drupal REST API request failed: ${
+          error.response?.status ?? error.message
+        }`,
         { cause: error },
       )
     }
