@@ -9,6 +9,7 @@ type IconProps = {
     | 'settings'
     | 'copy'
     | 'mail'
+    | 'send'
   className?: string
 }
 
@@ -98,6 +99,13 @@ export function Icon({ name, className }: IconProps) {
         <svg {...common}>
           <rect x="3" y="5" width="18" height="14" rx="2" />
           <path d="m3 7 9 6 9-6" />
+        </svg>
+      )
+    case 'send':
+      return (
+        <svg {...common}>
+          <path d="m22 2-7 20-4-9-9-4 20-7Z" />
+          <path d="M22 2 11 13" />
         </svg>
       )
   }
