@@ -1,5 +1,11 @@
 # React + TypeScript + Vite
 
+## Chatbot Copilot Studio embed
+
+The floating chatbot loads the hosted Copilot Studio webchat:
+
+`https://copilotstudio.microsoft.com/environments/3814220b-fb8e-ed34-87b7-e471f8369711/bots/cr63f_v10CXOAssessmentAgentDEV/webchat?__version__=2`
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
